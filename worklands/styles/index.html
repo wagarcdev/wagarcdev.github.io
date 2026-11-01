@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WorkLands — Cinco Estilos, Um Mundo</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#0b1220;color:#eaf4f6;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{min-width:0}
+main{max-width:2110px;margin:auto;padding:35px 30px 30px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;padding:0 0 25px;border-bottom:1px solid #284051;margin-bottom:27px}
+.eyebrow{color:#8ee9c8;font-size:12px;font-weight:850;letter-spacing:3px;margin-bottom:9px}.title{font-size:38px;line-height:1.05;font-weight:880;letter-spacing:-1.5px;margin:0}.lead{color:#acc3d0;font-size:15px;line-height:1.45;margin:14px 0 0;max-width:970px}.headright{color:#a8c3cf;text-align:right;font-size:12px;line-height:1.9;white-space:nowrap}.headright strong{color:#c3ebde}.accent{color:#86d9c2}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:15px}
+.card{background:#132337;border:1px solid #2e485b;border-radius:13px;overflow:hidden;box-shadow:0 16px 30px #030a1370;min-width:0}
+.cardHead{display:flex;align-items:center;gap:9px;padding:15px 14px 12px;min-height:78px}
+.number{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;color:#0e2432;background:#93e2c9;border-radius:6px;font-size:11px;font-weight:900}
+.card h2{font-size:15px;line-height:1.14;margin:0;font-weight:820;letter-spacing:-.2px}.card small{font-size:10px;color:#8baebb;line-height:1.4;display:block;margin-top:5px}
+.map{margin:0 10px 10px;border:1px solid #365363;background:#263a42;border-radius:4px;overflow:hidden;aspect-ratio:320/280}
+.map canvas{width:100%;height:100%;display:block}.pixel canvas{image-rendering:pixelated}
+.caption{min-height:86px;margin:0;padding:10px 14px 15px;font-size:11px;color:#9fb9c4;line-height:1.45}
+.caption strong{color:#e1f2ec;font-size:11px;display:block;margin-bottom:6px}
+.legend{display:flex;align-items:center;gap:25px;flex-wrap:wrap;margin-top:23px;padding:15px 17px;background:#111f30;border:1px solid #294259;border-radius:9px;color:#bacfd6;font-size:12px;line-height:1.4}
+.legend span{display:flex;gap:8px;align-items:center}.dot{width:10px;height:10px;border-radius:3px;background:#79d9b9}.dot.y{background:#f3c276}.dot.b{background:#78b0e2}
+.foot{color:#7d9aa7;font-size:11px;line-height:1.5;margin-top:15px}
+@media(max-width:1100px){.grid{display:flex;overflow-x:auto;gap:14px;padding-bottom:18px;scroll-snap-type:x mandatory}.card{flex:0 0 295px;scroll-snap-align:start}.title{font-size:28px}.headright{display:none}}
+@media(max-width:600px){main{padding:22px 13px}.grid{margin-right:-13px;padding-right:13px}.lead{font-size:13px}.card{flex-basis:305px}.legend{gap:12px}.title{font-size:27px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div><div class="eyebrow">WORKLANDS · ART DIRECTION STUDY 01</div><h1 class="title">UM MUNDO. <span class="accent">CINCO ESTILOS.</span></h1><p class="lead">Mesmo escritório, mesmas salas, móveis e agentes. Mudamos apenas a linguagem visual. Todas as cenas continuam em <strong>top-down</strong> para a comparação ser justa.</p></div>
+<div class="headright"><strong>ESTUDO COMPARATIVO</strong><br>Engine não definida<br>Ilustrações feitas em JavaScript Canvas<br>Não conectado ao OpenClaw</div>
+</header>
+<section class="grid" id="cards">
+ <article class="card pixel"><div class="cardHead"><span class="number">01</span><div><h2>Pixel art clássico</h2><small>Tiles e sprites discretos</small></div></div><div class="map"><canvas id="pixel" width="640" height="560"></canvas></div><div class="caption"><strong>Retrô / legível</strong>Pixels visíveis, grade marcante e paleta controlada. Muito próximo da direção original.</div></article>
+ <article class="card"><div class="cardHead"><span class="number">02</span><div><h2>2D moderno</h2><small>Formas vetoriais suaves</small></div></div><div class="map"><canvas id="modern" width="640" height="560"></canvas></div><div class="caption"><strong>Limpo / acolhedor</strong>Superfícies suaves, sombras sutis, cantos arredondados e maior fluidez gráfica.</div></article>
+ <article class="card"><div class="cardHead"><span class="number">03</span><div><h2>2.5D estilizado</h2><small>Volume e iluminação</small></div></div><div class="map"><canvas id="depth" width="640" height="560"></canvas></div><div class="caption"><strong>Material / profundidade</strong>Objetos com volume, sombras e acabamento de maquete, mantendo a planta top-down.</div></article>
+ <article class="card"><div class="cardHead"><span class="number">04</span><div><h2>Ilustrado / cartoon</h2><small>Contornos expressivos</small></div></div><div class="map"><canvas id="cartoon" width="640" height="560"></canvas></div><div class="caption"><strong>Divertido / expressivo</strong>Formas orgânicas, contornos grossos e cores alegres, sem mudar a arquitetura.</div></article>
+ <article class="card"><div class="cardHead"><span class="number">05</span><div><h2>Tech / minimalista</h2><small>Interface e planta neon</small></div></div><div class="map"><canvas id="tech" width="640" height="560"></canvas></div><div class="caption"><strong>Analítico / futurista</strong>Mapa técnico, linhas luminosas e entidades esquemáticas, priorizando dados.</div></article>
+</section>
+<div class="legend"><span><i class="dot"></i>Agente ativo</span><span><i class="dot y"></i>Reunião</span><span><i class="dot b"></i>Ocioso</span><span>▦ Engenharia · Servidores · Reunião · Convívio</span><span><strong>Layout idêntico nos cinco painéis</strong></span></div>
+<div class="foot">Protótipo estático para estudar direção de arte. Renderizado com JavaScript Canvas; não são sprites finais, não simula o runtime e não representa decisão de engine ou pacotes comerciais.</div>
+</main>
+<script>
+(()=>{
+'use strict';
+const presets={
+pixel:{bg:'#243c43',floor:'#c1c5a9',floor2:'#b9bda2',hall:'#98ada1',wall:'#3f6467',wallHi:'#8cb1a0',desk:'#b3885c',deskHi:'#d1af7b',metal:'#405662',screen:'#4cbbc1',leaf:'#478e69',leaf2:'#78bd7e',accent:'#83ead0',ink:'#263b44',text:'#e5f5d6',rug:'#95b3b0',skin:'#f2c396'},
+modern:{bg:'#e7f1ed',floor:'#e4e9da',floor2:'#dce5d7',hall:'#cfdfdc',wall:'#7dafa7',wallHi:'#f5fcf3',desk:'#a88275',deskHi:'#e6b89e',metal:'#476b76',screen:'#71c2d1',leaf:'#46a47e',leaf2:'#90cda5',accent:'#40a28f',ink:'#365768',text:'#37676c',rug:'#aecdd0',skin:'#edc3a4'},
+depth:{bg:'#354f54',floor:'#c1c4af',floor2:'#adb9a5',hall:'#a1b3a7',wall:'#536d6c',wallHi:'#b2d4c6',desk:'#936b51',deskHi:'#d5a576',metal:'#3f505d',screen:'#6ebec2',leaf:'#4a8662',leaf2:'#93be78',accent:'#e3b879',ink:'#233b44',text:'#f3ead4',rug:'#7e9ca0',skin:'#eec2a0'},
+cartoon:{bg:'#ffe7c2',floor:'#fff1d3',floor2:'#ffe9c0',hall:'#d2eddb',wall:'#3a5663',wallHi:'#ffffff',desk:'#ef9470',deskHi:'#ffd49a',metal:'#426a88',screen:'#88dfdf',leaf:'#4dbf80',leaf2:'#a7dd85',accent:'#f5ac54',ink:'#243b58',text:'#fff9d9',rug:'#f5c8b2',skin:'#fac79c'},
+tech:{bg:'#071622',floor:'#102a37',floor2:'#0d2734',hall:'#0b3041',wall:'#30788c',wallHi:'#64dcd9',desk:'#18465c',deskHi:'#23647a',metal:'#1b5265',screen:'#39d1d9',leaf:'#1b9a91',leaf2:'#55e4bf',accent:'#4af5d7',ink:'#71f4eb',text:'#b2fff0',rug:'#153a4f',skin:'#7deac7'}};
+const rooms=[{id:'ENG',x:10,y:13,w:179,h:108},{id:'SERVIDORES',x:193,y:13,w:117,h:108},{id:'REUNIÃO',x:10,y:148,w:145,h:119},{id:'CONVÍVIO',x:159,y:148,w:151,h:119}];
+const agents=[{x:65,y:104,kind:'active',skin:0},{x:137,y:101,kind:'active',skin:1},{x:255,y:102,kind:'active',skin:2},{x:70,y:226,kind:'meet',skin:0},{x:116,y:230,kind:'meet',skin:3},{x:203,y:243,kind:'idle',skin:1},{x:229,y:132,kind:'active',skin:0}];
+const roundRect=(c,x,y,w,h,r=5,fill,stroke=null,lw=1)=>{c.beginPath();c.roundRect(x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill()}if(stroke){c.lineWidth=lw;c.strokeStyle=stroke;c.stroke()}};
+const box=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};
+const circle=(c,x,y,r,col,stroke=null,lw=1)=>{c.beginPath();c.arc(x,y,r,0,2*Math.PI);if(col){c.fillStyle=col;c.fill()}if(stroke){c.strokeStyle=stroke;c.lineWidth=lw;c.stroke()}};
+const txt=(c,t,x,y,size,col,weight=800)=>{c.font=`${weight} ${size}px ${weight===800?'monospace':'Arial, sans-serif'}`;c.fillStyle=col;c.fillText(t,x,y)};
+const line=(c,x,y,x2,y2,stroke,width=1)=>{c.strokeStyle=stroke;c.lineWidth=width;c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.stroke()};
+const rgba=(h,a)=>{let s=h.replace('#','');return `rgba(${parseInt(s.slice(0,2),16)},${parseInt(s.slice(2,4),16)},${parseInt(s.slice(4,6),16)},${a})`};
+const grad=(c,x,y,w,h,a,b)=>{let g=c.createLinearGradient(x,y,x+w*.23,y+h);g.addColorStop(0,a);g.addColorStop(1,b);return g};
+function fx(ctx,kind){let c=ctx,p=presets[kind],pixel=kind==='pixel',cartoon=kind==='cartoon',modern=kind==='modern',tech=kind==='tech',depth=kind==='depth';c.save();c.clearRect(0,0,320,280);box(c,0,0,320,280,p.bg);
+// world frame and flooring identical in layout
+box(c,5,8,310,265,tech?'#0b202f':'#6f7f73');
+rooms.forEach((r,i)=>{
+ let base=tech?p.floor:(modern?grad(c,r.x,r.y,r.w,r.h,p.floor,p.floor2):p.floor);
+ roundRect(c,r.x,r.y,r.w,r.h,tech?2:modern?8:cartoon?9:0,base);
+ c.save();c.beginPath();c.rect(r.x,r.y,r.w,r.h);c.clip();
+ for(let x=r.x+5;x<r.x+r.w;x+=16)for(let y=r.y+5;y<r.y+r.h;y+=16){
+  if(pixel){box(c,x,y,15,15,((x+y)/16)%2>1?p.floor2:p.floor);box(c,x+1,y+1,1,1,'#9caa94')}
+  else if(tech){line(c,x,y,x+10,y,'#165566',.6);line(c,x,y,x,y+10,'#165566',.6)}
+  else if(modern){circle(c,x,y,1.0,'#ffffff30')}
+  else if(depth){line(c,x,y,x+15,y,'#ffffff18',.6);line(c,x,y,x,y+15,'#4c675015',.6)}
+  else {circle(c,x,y,1.0,'#eab37555')}
+ }
+ c.restore();
+});
+roundRect(c,10,123,300,22,pixel?0:3,p.hall);
+for(let i=0;i<12;i++)box(c,17+i*25,134,10,1,tech?'#22a4a2':rgba(p.ink,.25));
+// dimension constant across styles, styles change rendering
+function wall(x,y,w,h=4){if(depth){box(c,x+3,y+4,w,h+5,'#18313c');box(c,x,y,w,h+3,p.wall);box(c,x,y,w,2,p.wallHi)}else if(cartoon){roundRect(c,x,y,w,h+2,3,p.wall,'#203346',1.5);box(c,x+3,y+1,w-6,1,p.wallHi)}else if(modern){roundRect(c,x,y,w,h+1,3,p.wallHi,rgba(p.wall,.9),1.3)}else if(tech){box(c,x,y,w,2,p.wallHi);box(c,x,y+2,w,h,'#1e5667')}else{box(c,x,y,w,h,p.wall);box(c,x,y,w,2,p.wallHi)}}
+function vwall(x,y,h){if(depth){box(c,x+4,y+4,6,h+2,'#233941');box(c,x,y,5,h,p.wall);box(c,x,y,2,h,p.wallHi)}else if(cartoon){roundRect(c,x,y,5,h,2,p.wall,'#203346',1.4)}else if(modern){roundRect(c,x,y,4,h,2,p.wallHi,rgba(p.wall,.7),1)}else if(tech){box(c,x,y,2,h,p.wallHi)}else{box(c,x,y,5,h,p.wall);box(c,x,y,2,h,p.wallHi)}}
+wall(6,8,309);wall(6,118,306);wall(6,144,306);wall(6,267,309);vwall(6,8,262);vwall(312,8,262);vwall(190,8,111);vwall(156,145,120);
+// room door gaps
+function door(x,y,w){box(c,x,y-1,w,7,p.hall);box(c,x,y-1,2,7,p.wall);box(c,x+w-2,y-1,2,7,p.wall);if(tech)line(c,x+4,y+2,x+w-4,y+2,p.accent,1)}
+door(80,118,21);door(239,118,19);door(72,144,20);door(225,144,20);
+function label(x,y,t,w){if(tech){roundRect(c,x,y,w,15,1,'#0c2531',p.accent,.8);txt(c,t,x+5,y+10,8,p.accent)}else if(cartoon){roundRect(c,x,y,w,16,5,p.wall,'#263b52',1.7);txt(c,t,x+5,y+11,8,p.text)}else if(modern){roundRect(c,x,y,w,16,5,'#f5fbf1','rgba(58,107,108,.27)',1);txt(c,t,x+6,y+11,8,p.text)}else{box(c,x,y,w,15,p.ink);box(c,x,y,3,15,p.accent);txt(c,t,x+6,y+11,8,p.text)}}
+label(18,20,'ENGENHARIA',101);label(199,20,'SERVIDORES',106);label(18,153,'REUNIÃO',76);label(166,153,'CONVÍVIO',75);
+function shadow(x,y,w,h){if(pixel || tech)return; c.save();c.globalAlpha=depth?.28:.13;c.fillStyle=depth?'#102c34':'#405765';c.beginPath();c.ellipse(x+w/2+3,y+h/2+5,w*.58,h*.49,0,0,Math.PI*2);c.fill();c.restore()}
+function table(x,y,w=47,h=24){shadow(x,y,w,h);if(depth){roundRect(c,x+1,y+6,w,h,3,'#624c47');roundRect(c,x,y,w,h,3,p.deskHi,'#684944',1.6)}else if(tech){roundRect(c,x,y,w,h,2,p.desk,'#50d1d3',1);line(c,x+4,y+h-5,x+w-4,y+h-5,'#438fa3',1)}else if(cartoon){roundRect(c,x,y,w,h,8,p.desk,'#384b5f',2.8);roundRect(c,x+4,y+3,w-8,h-8,6,p.deskHi)}else if(modern){roundRect(c,x,y,w,h,7,p.deskHi,'#c29880',1)}else{box(c,x+2,y+3,w,h,'#735f4e');box(c,x,y,w,h,p.deskHi);box(c,x,y,4,h,p.desk)}}
+function monitor(x,y){if(depth){box(c,x+1,y+3,24,16,'#263843');box(c,x,y,24,14,p.metal)}else if(cartoon){roundRect(c,x,y,26,18,4,p.ink,'#294b56',2)}else if(modern){roundRect(c,x,y,25,16,3,p.metal)}else if(tech){roundRect(c,x,y,26,17,1,'#082b3b',p.accent,1)}else{box(c,x,y,25,18,p.metal)}
+roundRect(c,x+3,y+3,19,10,pixel?0:1,p.screen);line(c,x+6,y+6,x+16,y+6,tech?'#bbfff3':'#e2fff4',1);line(c,x+7,y+9,x+13,y+9,'#2d7982',1);box(c,x+11,y+14,5,2,p.metal);}
+function chair(x,y){shadow(x,y,18,17);if(cartoon){roundRect(c,x,y,18,16,6,'#6e9cac','#294b5a',2);roundRect(c,x+3,y+4,12,9,4,'#aad2d3')}else if(modern){roundRect(c,x,y,18,16,6,'#7eaeb1')}else if(depth){roundRect(c,x+1,y+5,16,15,4,'#364e57');roundRect(c,x,y,16,13,3,'#658b8d')}else if(tech){roundRect(c,x,y,17,16,1,'#0a2b3a',p.accent,.8)}else{box(c,x,y,18,17,'#364a53');box(c,x+3,y+2,12,12,'#668e8b')}}
+function plant(x,y){shadow(x,y,15,15);if(tech){circle(c,x+8,y+8,9,'#0b2c32','#55deac',1);line(c,x+8,y+8,x+4,y+1,'#4fdbb7',1);line(c,x+8,y+8,x+13,y+3,'#4fdbb7',1)}else{circle(c,x+8,y+11,7,cartoon?'#ffb96f':'#a37a60',cartoon?'#3a5663':null,cartoon?1.8:1);circle(c,x+6,y+6,7,p.leaf);circle(c,x+12,y+3,6,p.leaf2);circle(c,x+3,y+1,5,p.leaf2);if(pixel){box(c,x+9,y-3,5,5,p.leaf2)}}}
+function rack(x,y){shadow(x,y,19,48);if(depth){roundRect(c,x+3,y+6,18,46,2,'#1d323e');roundRect(c,x,y,18,45,1,p.metal,'#283c42',1.5)}else if(cartoon){roundRect(c,x,y,20,47,4,p.metal,'#273c54',2.5)}else if(modern){roundRect(c,x,y,20,47,4,p.metal)}else if(tech){roundRect(c,x,y,20,47,1,'#0c2332',p.accent,1)}else{box(c,x,y,20,48,p.metal)}
+for(let j=0;j<4;j++){roundRect(c,x+3,y+5+j*10,14,7,pixel?0:1,tech?'#143e4f':'#20333d');circle(c,x+6,y+8+j*10,1.5,(j===1?'#e9b56a':p.accent));box(c,x+11,y+7+j*10,4,2,tech?'#368f9e':'#52727a')}}
+function conference(x,y){shadow(x,y,80,31);table(x,y,80,32);if(cartoon){roundRect(c,x+8,y+8,64,16,8,'#ffebad','#425768',2)}else{roundRect(c,x+7,y+7,66,17,4,rgba(p.floor,.35))}for(let i=0;i<3;i++){box(c,x+17+i*17,y+12,11,8,tech?'#1c6071':'#f3dfba')}}
+function sofa(x,y){shadow(x,y,65,30);if(tech){roundRect(c,x,y,66,30,4,'#0e3141',p.accent,1.3);line(c,x+9,y+10,x+57,y+10,'#3fa4a9',1)}else if(cartoon){roundRect(c,x,y,67,30,11,'#e6957f','#34495a',3);roundRect(c,x+7,y+7,53,14,7,'#ffd7ad','#34495a',1.5)}else if(modern){roundRect(c,x,y,67,30,10,'#9dbcb8');roundRect(c,x+6,y+7,55,16,8,'#cbe0d4')}else if(depth){roundRect(c,x+3,y+8,66,25,5,'#526b64');roundRect(c,x,y,66,24,5,'#7eada3');roundRect(c,x+7,y+6,52,11,3,'#c2d5c0')}else{box(c,x,y,67,30,'#597970');box(c,x+6,y+7,55,14,'#8cb3a3');box(c,x,y,7,30,'#375963');box(c,x+60,y,7,30,'#375963')}}
+// identical furniture placements
+plant(166,80);table(29,65);monitor(39,69);chair(42,93);table(103,65);monitor(113,69);chair(115,93);roundRect(c,29,44,60,10,1,tech?'#10505b':rgba(p.rug,.7));
+for(let k=0;k<4;k++)rack(207+k*25,48);
+conference(37,189);chair(47,170);chair(114,215);chair(65,238);plant(133,232);
+sofa(177,186);table(259,210,34,25);plant(276,170);plant(173,244);table(213,223,24,22);
+// human figures: same coords and number for every style
+function agent(a){let x=a.x,y=a.y;let status=a.kind==='active'?p.accent:a.kind==='meet'?(tech?'#f6bc72':'#edb86e'):'#7bb3ed';
+if(tech){circle(c,x,y,8,'#0d2633',status,1.3);circle(c,x,y,3,status);line(c,x-11,y,x-7,y,status,.9);line(c,x+7,y,x+11,y,status,.9);line(c,x,y-11,x,y-7,status,.9);return}
+shadow(x-5,y-5,15,15);if(cartoon){circle(c,x,y,8,a.skin%2===0?'#eec398':'#bc8d7e','#304755',2.1);circle(c,x,y-3,7,a.skin===1?'#563e51':'#594741');circle(c,x,y-1,5,a.skin%2===0?'#eec398':'#bc8d7e');circle(c,x+8,y+7,3,status,'#305166',.9)}else if(modern){circle(c,x,y,7,a.skin%2===0?'#efc4a8':'#bb8b76');circle(c,x,y-3,7,a.skin===1?'#634a4e':'#534a49');circle(c,x,y,5,a.skin%2===0?'#efc4a8':'#bb8b76');circle(c,x+8,y+7,3,status)}else if(depth){circle(c,x+2,y+4,7,'#294550');circle(c,x,y,7,a.skin%2===0?'#dfad88':'#ba8a75');circle(c,x,y-3,7,'#494c48');circle(c,x+8,y+7,3,status)}else{box(c,x-6,y-4,12,14,a.skin===1?'#3d5355':'#4e6b71');box(c,x-5,y-5,10,9,'#d6aa86');box(c,x-5,y-7,10,5,'#403e42');box(c,x+7,y+5,4,4,status)} }
+for(let a of agents)agent(a);
+// visual lighting overlay for depth only
+if(depth){let g=c.createLinearGradient(0,0,315,270);g.addColorStop(0,'#fff3ca1f');g.addColorStop(.47,'#ffffff00');g.addColorStop(1,'#12344339');box(c,7,8,305,260,g)}
+if(tech){c.save();c.globalAlpha=.15;c.strokeStyle='#84f3dc';c.setLineDash([4,4]);line(c,84,125,84,145,'#5dd9cf',1);line(c,241,125,241,145,'#5dd9cf',1);c.restore()}
+// upper frame bevel
+if(pixel){box(c,4,7,310,2,p.wallHi)}
+if(cartoon){roundRect(c,7,9,305,259,6,null,'#2a4e60',2)}
+c.restore();}
+for(const kind of ['pixel','modern','depth','cartoon','tech']){
+ let canvas=document.getElementById(kind),dest=canvas.getContext('2d');dest.imageSmoothingEnabled=kind!=='pixel';
+ if(kind==='pixel'){
+  let temp=document.createElement('canvas');temp.width=160;temp.height=140;let c=temp.getContext('2d');c.scale(.5,.5);fx(c,kind);dest.imageSmoothingEnabled=false;dest.drawImage(temp,0,0,640,560);
+ }else{dest.save();dest.scale(2,2);fx(dest,kind);dest.restore()}
+}
+})();
+</script>
+</body>
+</html>
