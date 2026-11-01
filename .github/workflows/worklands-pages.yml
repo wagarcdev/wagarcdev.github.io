@@ -1,0 +1,43 @@
+name: Publicar prototipo WorkLands no GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'worklands/**'
+      - '.github/workflows/worklands-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages-worklands
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Validar e publicar HTML estatico
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar prototipo independente
+        run: |
+          test -s worklands/index.html
+          grep -q '<canvas id="world"' worklands/index.html
+          grep -q 'mapViewport' worklands/index.html
+          echo "WorkLands HTML presente e validado."
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Preparar publicacao (site existente + WorkLands)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
