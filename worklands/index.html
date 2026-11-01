@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorkLands — Escritório Pixel Art (Protótipo)</title>
+<style>
+:root{--base:#0a1722;--panel:#112432;--line:#294253;--txt:#ecf5f3;--muted:#91abbb;--mint:#62dbba;--cyan:#76d7ed}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--base);color:var(--txt);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+body{min-width:0}
+.top{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:#0b1925;border-bottom:1px solid #2b4252}
+.identity{display:flex;align-items:center;gap:15px}
+.mark{display:grid;place-items:center;width:42px;height:42px;font-size:23px;color:#0d2f37;background:linear-gradient(135deg,#9affda,#55bce8);border:3px solid #244552;box-shadow:4px 4px 0 #06121c;font-weight:900}
+h1{margin:0;font-size:23px;line-height:1;letter-spacing:1px}
+.subtitle{margin-top:6px;font-size:11px;letter-spacing:2px;color:#8eacbd;font-weight:700}
+.pills{display:flex;gap:9px;align-items:center}
+.pill{background:#132d3b;border:1px solid #2a5360;color:#b3d2dc;padding:9px 12px;font-size:11px;letter-spacing:.6px;font-weight:800}
+.pill.good{color:#9cecca;border-color:#34735e}
+.top button,.rail button{border:1px solid #3d6575;color:#dfefef;background:#1c3946;font-weight:750;cursor:pointer;padding:10px 13px;font-family:inherit;font-size:12px}
+.top button:hover,.rail button:hover{background:#295363}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 313px;gap:17px;padding:17px 19px 13px;max-width:1900px;margin:auto}
+.mapViewport{min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden}.mapShell{position:relative;min-width:0;background:#1d3840;border:3px solid #4b7980;box-shadow:0 0 0 5px #0c202a;align-self:start}
+canvas{width:100%;aspect-ratio:768/472;display:block;image-rendering:pixelated;cursor:crosshair}
+.mapTag{position:absolute;top:15px;left:15px;background:#071924ed;color:#e5fbf1;padding:10px 14px;border:2px solid #74c5b2;pointer-events:none}
+.mapTag b{font-size:14px;letter-spacing:1px}
+.mapTag small{display:block;color:#a9cece;margin-top:3px;font-size:10px;letter-spacing:1px}
+.mapFooter{position:absolute;left:13px;bottom:13px;right:13px;display:flex;justify-content:space-between;align-items:end;pointer-events:none}
+.mapFooter span{background:#0d2633e8;color:#d7eeee;border:1px solid #4b7880;font-size:11px;letter-spacing:.4px;font-weight:750;padding:8px 10px}
+.rail{background:linear-gradient(#142938,#0d202c);border:1px solid #2f5262;min-height:700px;padding:20px}
+.kicker{font-size:10px;color:#76d4bd;letter-spacing:2.2px;font-weight:900}
+.rail h2{font-size:22px;line-height:1.18;margin:10px 0 9px}
+.desc{font-size:12px;line-height:1.6;color:#b5cbd0;min-height:57px}
+.divider{height:1px;background:#335264;margin:19px 0}
+.stat{display:flex;justify-content:space-between;align-items:center;margin:14px 0;color:#a6bdc9;font-size:12px}
+.stat b{color:#e8fbf2;font-size:14px}
+.sectionhead{font-size:11px;letter-spacing:1.8px;color:#9dbbc7;font-weight:900;margin-bottom:10px}
+.person{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:12px;color:#e9f4f4}
+.dot{width:9px;height:9px;display:inline-block;flex:0 0 9px;background:#79daba;box-shadow:0 0 0 2px #294a44}
+.dot.meet{background:#efcb74;box-shadow:0 0 0 2px #655336}
+.dot.idle{background:#82aeef;box-shadow:0 0 0 2px #2f4b79}
+.projectTags{font-size:12px;line-height:1.9;color:#c3e4d5;margin-top:6px}.note{border:1px solid #355464;background:#0d2634;padding:12px;margin-top:17px;font-size:11px;color:#acc4cb;line-height:1.55}
+.note strong{color:#d9f1e8}
+.controls{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.legend{display:flex;gap:13px;align-items:center;flex-wrap:wrap;font-size:11px;color:#a7bec8;margin:0 19px 18px;max-width:1900px}
+.legend span{display:flex;align-items:center;gap:7px}
+.foot{font-size:11px;color:#8ba6b3;line-height:1.5;margin:0 19px 15px}
+@media(max-width:1150px){.main{grid-template-columns:1fr}.rail{min-height:0}.top .pill{display:none}}
+@media(max-width:750px){.top{height:auto;min-height:70px;padding:10px 12px;gap:10px;flex-wrap:wrap}.top h1{font-size:20px}.subtitle{font-size:9px}.top .pills{width:100%;gap:7px}.top button{padding:8px 10px}.main{padding:12px;display:block}.mapViewport{margin-bottom:15px;border:1px solid #34525c}.mapShell{width:768px;min-width:768px}.mapFooter span{font-size:9px}.rail{padding:16px}.legend{margin:10px 13px}.foot{margin:10px 13px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="identity"><div class="mark">W</div><div><h1>WORKLANDS</h1><div class="subtitle">SEU MUNDO • VISÃO INTERNA DA EMPRESA</div></div></div>
+  <div class="pills">
+    <span class="pill good">● CENA LOCAL DE DEMONSTRAÇÃO</span>
+    <span class="pill">PIXEL ART 2D · TOP-DOWN</span>
+    <button id="toggleRay">◎ Raio-X: off</button>
+    <button id="togglePlay">Ⅱ Pausar</button>
+  </div>
+</header>
+<div class="main">
+  <div class="mapViewport"><div class="mapShell">
+    <canvas id="world" width="768" height="472" aria-label="Planta do escritório WorkLands em pixel art top-down"></canvas>
+    <div class="mapTag"><b>AI WORKSPACE</b><small>SEDE · ANDAR 01 / MAPA EXPERIMENTAL</small></div>
+    <div class="mapFooter"><span>◈ CLIQUE EM UMA SALA PARA INSPECIONAR</span><span id="clock">DIA 01 · 09:42</span></div>
+  </div>
+  </div>
+  <aside class="rail">
+    <div class="kicker">INSPEÇÃO DO MUNDO</div>
+    <h2 id="roomTitle">Escritório AI Workspace</h2>
+    <div class="desc" id="roomDesc">Uma planta de empresa com setores, salas, estações, servidores e agentes. Selecione um ambiente no mapa.</div>
+    <div class="divider"></div>
+    <div class="sectionhead">ESTADO DO CENÁRIO</div>
+    <div class="stat"><span>Operação real</span><b>Não conectada</b></div>
+    <div class="stat"><span>Origem dos eventos</span><b>Simulação local</b></div>
+    <div class="stat"><span>Agentes ilustrativos</span><b>12 avatares</b></div>
+    <div class="stat"><span>Salas e zonas</span><b>11 áreas</b></div>
+    <div class="divider"></div>
+    <div class="sectionhead" id="peopleHeader">AGENTES NO CENÁRIO</div>
+    <div id="personList"></div>
+    <div class="note"><strong>Regras preservadas</strong><br>
+      Ociosos vão ao convívio. Reuniões representam comunicação registrada. Cotas desconhecidas não viram porcentagens fictícias. A animação não comanda o OpenClaw.
+    </div>
+    <div class="controls"><button id="reset">⌂ Visão geral</button><button id="screenshot">▣ Salvar PNG</button></div>
+    <div class="divider"></div>
+    <div class="sectionhead">PROJETOS DO SEU ECOSSISTEMA</div>
+    <div class="projectTags">Jarbas · Sim, Cheff · TechChef · Drag Star · Frota · Essence · P&D Floripa</div>
+  </aside>
+</div>
+<div class="legend"><span><i class="dot"></i> Em atividade</span><span><i class="dot meet"></i> Em reunião</span><span><i class="dot idle"></i> Disponível / convívio</span><span>● Servidores e integrações = representações, não ativos conectados</span></div>
+<div class="foot">Experimento visual autônomo em JavaScript Canvas. Os nomes, avatares e eventos são fictícios para validar arte, proporção, disposição e observabilidade. Não houve conexão, leitura ou alteração do seu OpenClaw.</div>
+<script>
+(() => {
+  'use strict';
+  const canvas=document.getElementById('world'), c=canvas.getContext('2d');
+  c.imageSmoothingEnabled=false;
+  const W=768,H=472;
+  let time=0,playing=true,ray=false,selected=null;
+  const colors={wall:'#1b3540',wallTop:'#5a8990',shadow:'#0e2730',light:'#c5ebe1',ink:'#1a3442'};
+  const rooms=[
+    {id:'academy',name:'ACADEMY',x:34,y:39,w:175,h:116,floor:'#b6cbbe',desc:'Aprendizagem prática sobre agentes, lógica e pipelines. Espaço pedagógico integrado ao mundo.'},
+    {id:'product',name:'PRODUTO / DESIGN',x:213,y:39,w:165,h:116,floor:'#d5c9b4',desc:'Planejamento dos projetos, documentação, UX e decisões de produto.'},
+    {id:'eng',name:'ENGENHARIA',x:382,y:39,w:187,h:116,floor:'#a9c6c2',desc:'Postos de desenvolvimento, implementação e revisão. Atribuições são representações visuais.'},
+    {id:'infra',name:'INFRA / SERVIDORES',x:573,y:39,w:161,h:116,floor:'#9db6bf',desc:'Representação de PCs, serviços, servidores, OpenClaw e conexões externas, sem vínculo operacional neste protótipo.'},
+    {id:'claw',name:'ORQUESTRAÇÃO',x:34,y:183,w:225,h:127,floor:'#c2bbc9',desc:'Painel de workflows, delegação, rotas e transferências visuais. Fluxos reais precisarão de eventos comprovados.'},
+    {id:'meeting',name:'SALA DE REUNIÃO',x:263,y:183,w:226,h:127,floor:'#d5cbb6',desc:'Agentes podem vir aqui quando houver comunicação coletiva rastreável. Registro e documentos consultáveis são parte da proposta.'},
+    {id:'obs',name:'OBSERVABILIDADE',x:493,y:183,w:241,h:127,floor:'#b7c9ba',desc:'Inspeção de tarefas, evidências, falhas, handoffs e indicadores sem inventar conclusão ou consumo.'},
+    {id:'cafe',name:'CAFÉ & CONVÍVIO',x:34,y:337,w:221,h:96,floor:'#c9c6ae',desc:'Agentes disponíveis, mas sem tarefa, podem caminhar, descansar e conversar aqui.'},
+    {id:'lab',name:'LABORATÓRIO',x:259,y:337,w:199,h:96,floor:'#aebdcc',desc:'Espaço para simular cenários e testar workflows. A forma definitiva de acesso ao laboratório permanece aberta.'},
+    {id:'director',name:'DIRETORIA / HITL',x:462,y:337,w:153,h:96,floor:'#cec1bc',desc:'Fila de decisões, aprovações humanas e memorandos: um comando real só ocorre após intenção e permissão.'},
+    {id:'entry',name:'RECEPÇÃO',x:619,y:337,w:115,h:96,floor:'#b9d1c5',desc:'Entrada e saída visual dos avatares, independentemente da operação do runtime.'}
+  ];
+  const agents=[
+   {n:'Lia',room:'academy',x:89,y:121,s:'#efc26d',hair:'#673e44',state:'work'},
+   {n:'Nina',room:'product',x:310,y:122,s:'#88bde7',hair:'#5c354a',state:'work'},
+   {n:'Theo',room:'eng',x:424,y:123,s:'#e8997e',hair:'#292e48',state:'work'},
+   {n:'Ada',room:'eng',x:523,y:123,s:'#f3d67c',hair:'#39434a',state:'work'},
+   {n:'Kai',room:'infra',x:662,y:116,s:'#bc9cec',hair:'#292a38',state:'work'},
+   {n:'Orion',room:'claw',x:119,y:252,s:'#78bbef',hair:'#463836',state:'work'},
+   {n:'Sol',room:'claw',x:206,y:253,s:'#eeac89',hair:'#55383f',state:'work'},
+   {n:'Iris',room:'meeting',x:341,y:258,s:'#8adaad',hair:'#494060',state:'meet'},
+   {n:'Atlas',room:'meeting',x:414,y:259,s:'#edb17c',hair:'#3a3437',state:'meet'},
+   {n:'Mika',room:'obs',x:571,y:268,s:'#c1a3ec',hair:'#4a3439',state:'work'},
+   {n:'Bia',room:'cafe',x:116,y:393,s:'#f1be83',hair:'#6c364d',state:'idle'},
+   {n:'Ravi',room:'director',x:558,y:407,s:'#8dc5ce',hair:'#3e3540',state:'work'}
+  ];
+  let last=performance.now();
+  const rect=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
+  const line=(x1,y1,x2,y2,color,w=1)=>{c.strokeStyle=color;c.lineWidth=w;c.beginPath();c.moveTo(Math.round(x1)+.5,Math.round(y1)+.5);c.lineTo(Math.round(x2)+.5,Math.round(y2)+.5);c.stroke()};
+  const text=(v,x,y,col='#f4f9ef',size=8)=>{c.font=`bold ${size}px monospace`;c.fillStyle=col;c.fillText(v,Math.round(x),Math.round(y))};
+  function wallH(x,y,w,doors=[]){rect(x,y+3,w,5,'#10262f');rect(x,y,w,4,'#49747c');rect(x,y,w,2,'#8eaaa8');for(const [dx,dw] of doors){rect(x+dx,y,dw,9,'#8a9b8e');rect(x+dx,y+7,dw,2,'#d5d5b8');rect(x+dx-3,y+3,3,5,'#2e4e54');rect(x+dx+dw,y+3,3,5,'#2e4e54')}}
+  function wallV(x,y,h){rect(x+3,y,5,h,'#10262f');rect(x,y,4,h,'#537b80');rect(x,y,2,h,'#91b2ac')}
+  function tiles(r){rect(r.x,r.y,r.w,r.h,r.floor);for(let yy=r.y;yy<r.y+r.h;yy+=12){for(let xx=r.x;xx<r.x+r.w;xx+=12){if((Math.floor(xx/12)+Math.floor(yy/12))%2===0)rect(xx,yy,11,11,'#ffffff0c');rect(xx,yy,1,1,'#354f5015')}}}
+  function room(r){
+    tiles(r);
+    if(selected && selected.id===r.id){rect(r.x+4,r.y+4,r.w-8,3,'#67ffd2');rect(r.x+4,r.y+r.h-8,r.w-8,3,'#67ffd2')}
+    const labelW=Math.min(r.w-12,r.name.length*5+18);
+    rect(r.x+8,r.y+8,labelW,17,'#122f3cd9');rect(r.x+8,r.y+8,3,17,'#75ddbe');text(r.name,r.x+15,r.y+20,'#ecffeb',8);
+  }
+  function desk(x,y,variant='pc'){rect(x+3,y+18,35,4,'#4c6a69');rect(x,y+3,42,17,'#6e5953');rect(x+2,y+2,38,16,'#c7a17c');rect(x+6,y+6,22,12,'#27404a');rect(x+8,y+6,18,9,'#62afb2');rect(x+11,y+8,12,1,'#cceadf');rect(x+14,y+11,9,1,'#cceadf');rect(x+17,y+16,4,2,'#51676b');rect(x+30,y+11,7,3,variant==='paper'?'#e4d5b3':'#263c44');if(variant==='paper')rect(x+31,y+10,4,1,'#de7c65');}
+  function chair(x,y,color='#586d82'){rect(x-1,y+2,15,12,'#273b45');rect(x,y,13,7,color);rect(x+3,y+6,7,8,color);rect(x+2,y+14,9,2,'#20343a')}
+  function shelf(x,y,h=44){rect(x,y,16,h,'#463c3c');rect(x+2,y+2,12,h-4,'#986c57');for(let j=4;j<h-5;j+=10){rect(x+3,y+j,3,7,'#4a99a3');rect(x+7,y+j,3,7,'#e2b067');rect(x+11,y+j,2,7,'#82ba9e');rect(x+2,y+j+7,12,2,'#6a4440')}}
+  function plant(x,y){rect(x+3,y+12,13,9,'#bd8f68');rect(x+5,y+15,9,6,'#76594c');rect(x+6,y+4,7,11,'#3a7558');rect(x+3,y+8,14,6,'#39845c');rect(x+7,y+1,5,11,'#6ebd72');rect(x+12,y+6,5,6,'#58a66a')}
+  function rack(x,y){rect(x+2,y+4,19,50,'#1b303c');rect(x,y,19,50,'#3a515d');rect(x+2,y+2,15,46,'#213846');for(let i=0;i<5;i++){rect(x+4,y+6+i*8,11,5,'#0e222e');rect(x+6,y+8+i*8,2,2,'#72e8b7');rect(x+11,y+8+i*8,2,2,(i%2?'#e8b16c':'#75bce7'))}rect(x,y,19,2,'#92afb4')}
+  function screen(x,y,w=65,h=27){rect(x,y,w,h,'#253e49');rect(x+3,y+3,w-6,h-6,'#0c3241');for(let i=0;i<5;i++){line(x+6+i*10,y+h-8-i%2*5,x+13+i*10,y+h-12-(i%3)*5,'#82dcb8',1)}rect(x+4,y+4,w-8,1,'#6cd9c7')}
+  function sofa(x,y){rect(x,y,53,23,'#273f4b');rect(x+3,y+3,47,17,'#bb7e6a');rect(x+3,y+3,47,6,'#d99a7b');rect(x+3,y+13,47,5,'#ac705e');rect(x,y,7,22,'#805647');rect(x+46,y,7,22,'#805647')}
+  function coffee(x,y){rect(x,y,14,17,'#c5bfaa');rect(x+3,y+4,8,9,'#7a574a');rect(x+5,y+6,5,5,'#312c35');rect(x+12,y+7,3,4,'#f6e8c6')}
+  function roundTable(x,y){rect(x+3,y+4,45,33,'#76574e');rect(x+6,y+7,39,27,'#c19671');rect(x+11,y+12,29,17,'#dbb78c');rect(x+20,y+16,8,5,'#e8e2ca')}
+  function avatar(a){
+    const bob=a.state==='idle'?Math.round(Math.sin(time*1.4+(a.x/20))*1):Math.round(Math.sin(time*4+a.x)*.6);
+    let x=Math.round(a.x + (a.state==='idle'?Math.sin(time*.35)*4:0)),y=Math.round(a.y+bob);
+    rect(x-1,y+11,12,3,'#20343955');rect(x+1,y+9,3,4,'#29374d');rect(x+6,y+9,3,4,'#29374d');
+    rect(x,y+3,10,9,'#1a3544');rect(x+1,y+4,8,7,a.s);
+    rect(x+2,y-4,7,8,'#efc6a3');rect(x+1,y-5,9,4,a.hair);rect(x+1,y-1,2,3,a.hair);
+    rect(x+7,y,1,1,'#2e3337');rect(x+3,y,1,1,'#2e3337');
+    const status=a.state==='idle'?'#7da9ef':a.state==='meet'?'#f2c677':'#71d9aa';
+    rect(x+11,y-6,4,4,'#173842');rect(x+12,y-5,2,2,status);
+  }
+  function outdoor(){
+    rect(0,0,W,H,'#233f42');
+    for(let y=0;y<H;y+=14)for(let x=0;x<W;x+=14){if(((x*17+y*9)%7)<3){rect(x+2,y+1,3,2,'#3c6352');rect(x+8,y+9,2,2,'#467561')}}
+    const trees=[[13,25],[748,20],[13,201],[753,305],[16,454],[749,455]];
+    for(const [x,y] of trees){rect(x-2,y+2,8,8,'#1c3434');rect(x-5,y-10,14,17,'#426e55');rect(x-1,y-16,9,13,'#65a46d');rect(x-10,y-6,10,10,'#559161');rect(x+3,y-8,10,11,'#4d8f5e');}
+    rect(20,29,730,426,'#0d252e');rect(25,34,720,416,'#537e78');
+    rect(27,36,715,412,'#223b43');
+    for(let x=39;x<732;x+=16){rect(x,16,11,9,'#667a71');rect(x+2,18,7,5,'#d4c5a7')}
+    // Passeio externo na entrada inferior
+    rect(675,443,44,29,'#758f86');for(let y=445;y<472;y+=10)rect(675,y,44,1,'#a3b3a5');
+  }
+  function corridors(){
+    rect(34,156,700,26,'#8faeaa');rect(34,311,700,26,'#8da9a5');
+    for(let x=34;x<734;x+=12){rect(x,163,7,2,'#d1d9ba');rect(x,318,7,2,'#d1d9ba')}
+    for(let x=34;x<734;x+=45){rect(x+6,177,20,2,'#415e64');rect(x+6,332,20,2,'#415e64')}
+    // Faixas de trilha lúdica: não são conexões operacionais
+    for(let x=65;x<700;x+=32){rect(x,168,15,2,'#7cc7b1');rect(x+17,168,3,2,'#d2e6cf')}
+    for(let x=65;x<700;x+=32){rect(x,322,15,2,'#7cc7b1')}
+  }
+  function drawFurniture(){
+    // Academy
+    shelf(48,72,50);shelf(67,72,50);shelf(187,72,44);
+    desk(99,89,'paper');desk(146,89,'paper');chair(111,114);chair(159,114);
+    rect(98,69,79,17,'#38574f');text('01  AGENTES',107,80,'#bde7c0',8);
+    // Produto & design
+    desk(230,86,'paper');desk(300,86,'paper');chair(245,111);chair(315,111);
+    rect(264,69,56,11,'#ded6be');for(let i=0;i<6;i++)rect(269+i*8,72,5,5,['#e3a56e','#9ed2c6','#d19caa'][i%3]);
+    shelf(349,84,45);
+    // engenharia
+    desk(396,85);desk(448,85);desk(501,85);chair(412,111);chair(466,111);chair(519,111);
+    rect(391,70,67,9,'#263f4b');text('BUILD  > OK',396,77,'#86e2b6',7);
+    // Infra
+    for(let x=583;x<=650;x+=27)rack(x,81);
+    rack(700,81);rack(674,81);
+    line(581,136,730,136,'#6295a0',2);for(let x=584;x<730;x+=17)rect(x,135,5,3,'#79d2c8');
+    // Claw
+    screen(49,211,78,36);desk(49,255);chair(65,279);
+    screen(154,211,85,36);desk(164,254);chair(181,279);
+    rect(136,222,10,8,'#e0bb80');text('>',138,228,'#254956',8);
+    // Meeting
+    screen(338,209,71,27);roundTable(353,245);chair(328,252,'#82775f');chair(410,250,'#82775f');chair(364,283,'#82775f');
+    rect(278,216,40,39,'#e5d6bb');text('ATA',285,229,'#6b6a65',8);
+    for(let j=0;j<3;j++)rect(283,236+j*5,29,1,'#bd9f82');
+    plant(456,263);
+    // Observability
+    screen(507,213,79,37);screen(595,213,75,37);screen(677,213,42,37);
+    desk(512,264);desk(578,264);desk(646,264);chair(528,287);chair(595,287);chair(662,287);
+    // cafe
+    sofa(53,370);roundTable(145,372);plant(220,371);
+    rect(182,359,28,17,'#73554c');rect(187,362,19,12,'#d3c4aa');coffee(190,359);
+    rect(43,345,30,13,'#695750');text('CAFÉ',46,354,'#fbdbb0',8);
+    // Lab
+    screen(275,364,76,35);desk(275,405);rect(364,363,75,36,'#2b4759');rect(369,368,65,26,'#123b58');text('SANDBOX',376,378,'#7bdcda',8);
+    for(let j=0;j<3;j++){rect(376+j*13,383,6,8,['#d1c67a','#ba8fca','#7ed1ab'][j]);rect(377+j*13,381,4,2,'#dcecec')}
+    // Director
+    desk(492,375,'paper');chair(504,402);rect(558,374,39,42,'#7c5549');rect(562,377,31,36,'#ddb995');rect(568,383,14,3,'#fff3cf');rect(568,389,20,2,'#a57d69');rect(568,394,16,2,'#a57d69');rect(568,399,12,2,'#a57d69');
+    // Reception
+    desk(634,377,'paper');plant(704,366);rect(650,402,64,10,'#718d7f');text('ENTRADA',660,410,'#e4f1d7',8);
+  }
+  function walls(){
+    // top and lower boundaries of groups, with doors through corridors
+    wallH(34,39,700);
+    wallH(34,152,700,[[72,16],[250,16],[447,16],[618,16]]);
+    wallH(34,179,700);
+    wallH(34,307,700,[[94,16],[326,16],[558,16]]);
+    wallH(34,334,700);
+    wallH(34,433,700,[[645,32]]);
+    for(const [y,h,xx] of [[39,116,[34,209,378,569,734]],[183,127,[34,259,489,734]],[337,96,[34,255,458,615,734]]]){
+      xx.forEach(x=>wallV(x,y,h));
+    }
+    for(let x=44;x<734;x+=68){rect(x,37,22,4,'#9ac3c4');rect(x,432,22,3,'#9ac3c4')}
+    // Corridor arrows are environmental navigation cues
+    for(const [x,y] of [[116,165],[295,165],[468,165],[620,165],[125,320],[369,320],[570,320]]){rect(x,y,6,5,'#d4e7d7');rect(x+6,y+1,4,3,'#d4e7d7')}
+  }
+  function effects(){
+    const pulse=Math.sin(time*2)*.5+.5;
+    // Meeting progress record icon, visual demonstration only.
+    rect(462,201,10,9,'#365660');rect(464,202,5,6,pulse>.4?'#f5b77b':'#e5907b');text('REC',439,207,'#503d37',7);
+    // blink service lights
+    for(let j=0;j<5;j++){rect(588+j*27,112+(j%2)*8,3,2,Math.sin(time*2+j)>0?'#7deec9':'#447a85')}
+    // standup notes in meeting
+    if(Math.sin(time*1.4)>0.55){rect(390,237,14,8,'#ecdfbb');rect(395,245,3,3,'#ecdfbb');text('...',393,243,'#47575a',7)}
+    // idle activity
+    if(Math.sin(time*1.5)>0){text('z',80,373,'#607cb5',9);text('z',87,367,'#607cb5',7)}
+  }
+  function rayOverlay(){
+    if(!ray)return;
+    const pts=[[145,242],[361,242],[605,237],[488,110],[670,110],[350,388],[535,400]];
+    c.save();c.strokeStyle='#59cdea';c.lineWidth=2;c.setLineDash([6,5]);c.globalAlpha=.86;
+    const edges=[[0,1],[1,2],[0,3],[3,4],[1,5],[1,6]];
+    for(const [a,b] of edges){c.beginPath();c.moveTo(...pts[a]);c.lineTo(...pts[b]);c.stroke()}
+    c.restore();
+    for(let i=0;i<pts.length;i++){const [x,y]=pts[i];rect(x-3,y-3,7,7,'#b5f5e7');rect(x-1,y-1,3,3,'#2b617a')}
+  }
+  function draw(dt=0){
+    if(playing)time+=dt;
+    c.clearRect(0,0,W,H);
+    outdoor();
+    rooms.forEach(room);
+    corridors();drawFurniture();
+    agents.forEach(avatar);
+    effects();walls();rayOverlay();
+    // Small street exit sign, sharp pixel label
+    rect(664,451,59,13,'#14353d');text('SAÍDA →',672,460,'#d1f4d5',8);
+  }
+  function inspect(r){
+    selected=r;
+    document.getElementById('roomTitle').textContent=r?r.name:'Escritório AI Workspace';
+    document.getElementById('roomDesc').textContent=r?r.desc:'Uma planta de empresa com setores, salas, estações, servidores e agentes. Selecione um ambiente no mapa.';
+    let subset=r?agents.filter(a=>a.room===r.id):agents.slice(0,7);
+    document.getElementById('peopleHeader').textContent=r?'AGENTES NA ÁREA':'AGENTES ILUSTRATIVOS';
+    let markup='';
+    subset.forEach(a=>{let cls=a.state==='meet'?'meet':a.state==='idle'?'idle':'';let state=a.state==='meet'?'reunião':a.state==='idle'?'convívio':'atividade';markup+=`<div class="person"><span class="dot ${cls}"></span>${a.n}<span style="margin-left:auto;color:#8fa8b6;font-size:11px">${state}</span></div>`});
+    document.getElementById('personList').innerHTML=markup||'<div style="font-size:12px;color:#93aeba">Nenhum avatar nesta sala.</div>';
+  }
+  canvas.addEventListener('click',e=>{const b=canvas.getBoundingClientRect(),x=(e.clientX-b.left)*W/b.width,y=(e.clientY-b.top)*H/b.height;inspect(rooms.find(r=>x>=r.x&&x<r.x+r.w&&y>=r.y&&y<r.y+r.h)||null);draw()});
+  document.getElementById('toggleRay').onclick=e=>{ray=!ray;e.currentTarget.textContent=`◎ Raio-X: ${ray?'on':'off'}`;draw()};
+  document.getElementById('togglePlay').onclick=e=>{playing=!playing;e.currentTarget.textContent=playing?'Ⅱ Pausar':'▶ Reproduzir'};
+  document.getElementById('reset').onclick=()=>{inspect(null);draw()};
+  document.getElementById('screenshot').onclick=()=>{const a=document.createElement('a');a.download='worklands-escritorio-pixel-art.png';a.href=canvas.toDataURL('image/png');a.click()};
+  function frame(now){let dt=Math.min((now-last)/1000,.1);last=now;draw(dt);requestAnimationFrame(frame)}
+  inspect(null);requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
